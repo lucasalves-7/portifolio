@@ -1,0 +1,36 @@
+<nav class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/55 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <a href="#hero" class="group flex items-center gap-3">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 shadow-neon">
+                
+            </span>
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300/90">LucasAlves.tech</p>
+                <p class="text-xs text-slate-400 transition group-hover:text-slate-300">Portfolio tecnológico</p>
+            </div>
+        </a>
+
+        <div class="hidden items-center gap-2 md:flex">
+            <a href="#sobre" class="rounded-full px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Sobre</a>
+            <a href="#projetos" class="rounded-full px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Projetos</a>
+            <a href="#futuros" class="rounded-full px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Projetos Futuros</a>
+            <a href="#certificados" class="rounded-full px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Certificados</a>
+            <a href="#contato" class="ml-2 inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-200 shadow-neon transition hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/15 hover:shadow-neon-strong">Contato</a>
+        </div>
+
+        <button id="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-3 text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-300 md:hidden">
+            <i id="menu-open-icon" data-feather="menu" class="h-5 w-5"></i>
+            <i id="menu-close-icon" data-feather="x" class="hidden h-5 w-5"></i>
+        </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-white/10 bg-slate-950/85 px-4 py-4 backdrop-blur-xl md:hidden">
+        <div class="mx-auto flex max-w-7xl flex-col gap-2">
+            <a data-mobile-link href="#sobre" class="rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Sobre</a>
+            <a data-mobile-link href="#projetos" class="rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Projetos</a>
+            <a data-mobile-link href="#futuros" class="rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Projetos Futuros</a>
+            <a data-mobile-link href="#certificados" class="rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/5 hover:text-cyan-300">Certificados</a>
+            <a data-mobile-link href="#contato" class="rounded-2xl border border-cyan-400/25 bg-cyan-400/10 px-4 py-3 text-sm font-medium text-cyan-200 shadow-neon transition hover:bg-cyan-400/15">Contato</a>
+        </div>
+    </div>
+</nav>

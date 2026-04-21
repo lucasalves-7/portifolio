@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Alves</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abyss: "#050816",
+                        neon: {
+                            blue: "#38bdf8",
+                            purple: "#8b5cf6",
+                            cyan: "#22d3ee"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ["Segoe UI", "system-ui", "sans-serif"]
+                    },
+                    boxShadow: {
+                        neon: "0 0 0 1px rgba(56,189,248,.18), 0 0 24px rgba(56,189,248,.14), 0 0 64px rgba(139,92,246,.12)",
+                        "neon-strong": "0 0 0 1px rgba(56,189,248,.25), 0 0 32px rgba(56,189,248,.22), 0 0 80px rgba(139,92,246,.2)"
+                    },
+                    backgroundImage: {
+                        grid: "linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px)"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body class="min-h-screen overflow-x-hidden bg-abyss text-slate-100 antialiased">
+    <div class="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(139,92,246,0.16),_transparent_30%),linear-gradient(180deg,_#050816_0%,_#020617_100%)]"></div>
+    <div class="fixed inset-0 -z-10 bg-grid bg-[size:36px_36px] opacity-25 [mask-image:radial-gradient(circle_at_center,black,transparent_88%)]"></div>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 80,
+            easing: "ease-out-cubic"
+        });
+
+        feather.replace();
+
+        const btn = document.getElementById("menu-btn");
+        const menu = document.getElementById("mobile-menu");
+        const iconOpen = document.getElementById("menu-open-icon");
+        const iconClose = document.getElementById("menu-close-icon");
+        const mobileLinks = document.querySelectorAll("[data-mobile-link]");
+
+        if (btn && menu) {
+            btn.addEventListener("click", () => {
+                const isHidden = menu.classList.contains("hidden");
+                menu.classList.toggle("hidden");
+                btn.setAttribute("aria-expanded", String(isHidden));
+
+                if (iconOpen && iconClose) {
+                    iconOpen.classList.toggle("hidden", !isHidden);
+                    iconClose.classList.toggle("hidden", isHidden);
+                }
+            });
+
+            mobileLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    menu.classList.add("hidden");
+                    btn.setAttribute("aria-expanded", "false");
+                    if (iconOpen && iconClose) {
+                        iconOpen.classList.remove("hidden");
+                        iconClose.classList.add("hidden");
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
