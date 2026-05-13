@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucas Alves</title>
+    <link rel="icon" type="image/png" href="{% static 'core/img/favicon.png' %}">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -34,6 +36,7 @@
     </script>
 
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/site.css' %}">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
@@ -45,14 +48,23 @@
 
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 80,
-            easing: "ease-out-cubic"
-        });
+        if (window.AOS) {
+            AOS.init({
+                duration: 700,
+                once: true,
+                offset: 60,
+                easing: "ease-out-cubic",
+                disable: () => window.innerWidth < 360
+            });
+        } else {
+            document.querySelectorAll("[data-aos]").forEach((element) => {
+                element.removeAttribute("data-aos");
+            });
+        }
 
-        feather.replace();
+        if (window.feather) {
+            feather.replace();
+        }
 
         const btn = document.getElementById("menu-btn");
         const menu = document.getElementById("mobile-menu");
@@ -60,10 +72,22 @@
         const iconClose = document.getElementById("menu-close-icon");
         const mobileLinks = document.querySelectorAll("[data-mobile-link]");
 
+        const closeMobileMenu = () => {
+            if (!menu || !btn) return;
+            menu.classList.add("hidden");
+            document.body.classList.remove("mobile-menu-open");
+            btn.setAttribute("aria-expanded", "false");
+            if (iconOpen && iconClose) {
+                iconOpen.classList.remove("hidden");
+                iconClose.classList.add("hidden");
+            }
+        };
+
         if (btn && menu) {
             btn.addEventListener("click", () => {
                 const isHidden = menu.classList.contains("hidden");
                 menu.classList.toggle("hidden");
+                document.body.classList.toggle("mobile-menu-open", isHidden);
                 btn.setAttribute("aria-expanded", String(isHidden));
 
                 if (iconOpen && iconClose) {
@@ -73,14 +97,11 @@
             });
 
             mobileLinks.forEach((link) => {
-                link.addEventListener("click", () => {
-                    menu.classList.add("hidden");
-                    btn.setAttribute("aria-expanded", "false");
-                    if (iconOpen && iconClose) {
-                        iconOpen.classList.remove("hidden");
-                        iconClose.classList.add("hidden");
-                    }
-                });
+                link.addEventListener("click", closeMobileMenu);
+            });
+
+            window.addEventListener("resize", () => {
+                if (window.innerWidth >= 768) closeMobileMenu();
             });
         }
     </script>

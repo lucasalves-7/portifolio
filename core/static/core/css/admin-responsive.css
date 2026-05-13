@@ -1,0 +1,236 @@
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.brand-link {
+    min-height: 3.5rem;
+    white-space: normal;
+}
+
+.brand-image,
+.login-logo img {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    object-fit: cover;
+    border-radius: 9999px;
+}
+
+.login-logo img {
+    width: 7.5rem !important;
+    height: 7.5rem !important;
+    display: block;
+    margin: 0 auto 1rem;
+    border: 1px solid rgba(34, 211, 238, 0.28);
+    box-shadow: 0 18px 48px rgba(2, 6, 23, 0.22);
+}
+
+.login-page .login-box,
+.register-page .register-box {
+    width: min(calc(100vw - 2rem), 24rem) !important;
+    max-width: calc(100vw - 2rem) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.login-page,
+.register-page {
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+}
+
+.login-page .card,
+.register-page .card {
+    width: 100% !important;
+    overflow: hidden;
+}
+
+.content-wrapper,
+.main-footer,
+.main-header {
+    min-width: 0;
+}
+
+.content,
+.container-fluid {
+    min-width: 0;
+}
+
+.card,
+.card-body,
+.tab-content,
+.form-row,
+.form-group {
+    min-width: 0;
+}
+
+.table-responsive,
+.results,
+.change-list .results {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.results table,
+.table {
+    min-width: 720px;
+}
+
+input,
+select,
+textarea,
+.select2-container,
+.select2-selection,
+.related-widget-wrapper {
+    max-width: 100%;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    min-height: 2.75rem;
+}
+
+.object-tools,
+.submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.object-tools a,
+.submit-row input,
+.submit-row a,
+.btn {
+    min-height: 2.75rem;
+    white-space: normal;
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 0.95rem;
+    }
+
+    .content-header {
+        padding: 0.85rem 0.75rem 0;
+    }
+
+    .content {
+        padding: 0 0.75rem 1rem;
+    }
+
+    .login-page,
+    .register-page {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 1rem !important;
+    }
+
+    .login-page .login-box,
+    .register-page .register-box {
+        width: min(82vw, 21rem) !important;
+        max-width: 82vw !important;
+    }
+
+    .card {
+        border-radius: 0.75rem;
+    }
+
+    .card-body {
+        padding: 0.9rem;
+    }
+
+    .main-header .navbar-nav .nav-link {
+        min-height: 2.75rem;
+    }
+
+    .sidebar {
+        overflow-x: hidden;
+    }
+
+    .nav-sidebar .nav-link {
+        min-height: 2.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .form-row,
+    .form-group,
+    fieldset.module,
+    .aligned .form-row {
+        display: block;
+        width: 100%;
+    }
+
+    label,
+    .aligned label {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.35rem;
+        padding: 0;
+        float: none;
+    }
+
+    .related-widget-wrapper {
+        width: 100%;
+        float: none;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .submit-row {
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        margin: 1rem -0.9rem -0.9rem;
+        padding: 0.75rem 0.9rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.96);
+        backdrop-filter: blur(10px);
+    }
+
+    .submit-row input,
+    .submit-row a {
+        flex: 1 1 100%;
+        margin: 0;
+    }
+
+    .paginator,
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+    }
+}
+
+@media (max-width: 420px) {
+    .content-header h1 {
+        font-size: 1.45rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+
+    .results table,
+    .table {
+        min-width: 640px;
+    }
+}
