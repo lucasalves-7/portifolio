@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sobre Lucas Alves | Estágio em TI e Dados{% endblock %}
+{% block meta_description %}Conheça a trajetória de Lucas Alves, estudante de Sistemas de Informação em busca de estágio em TI, com foco em Análise de Dados e interesse em suporte, desenvolvimento e automação.{% endblock %}
+{% block og_title %}Sobre Lucas Alves | Estágio em TI e Dados{% endblock %}
+{% block og_description %}Trajetória, objetivos, áreas de interesse e aprendizados profissionais de Lucas Alves.{% endblock %}
+
+{% block content %}
+    {% include 'core/components/navbar.html' %}
+
+    <main class="px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32 lg:px-8">
+        <section class="mx-auto max-w-5xl">
+            <p class="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Sobre</p>
+            <h1 class="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">Uma trajetória em construção na área de tecnologia.</h1>
+            <p class="mt-6 text-base leading-8 text-slate-300">
+                Sou estudante de Sistemas de Informação e busco um estágio em TI para aprender com profissionais mais experientes, contribuir com responsabilidade e transformar estudo em prática. Meu principal interesse é Análise de Dados, mas também estou aberto a suporte técnico, desenvolvimento, automação, infraestrutura e outras áreas de tecnologia.
+            </p>
+        </section>
+
+        <section class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
+            <div class="rounded-[1.5rem] border border-cyan-300/15 bg-[#07111f]/80 p-6 shadow-neon">
+                <h2 class="text-xl font-bold text-white">Base profissional</h2>
+                <p class="mt-4 text-sm leading-7 text-slate-300">
+                    Minha vivência com atendimento, rotinas administrativas, sistemas, Excel, suporte básico e organização de informações me deu uma visão prática de processos, comunicação e resolução de problemas.
+                </p>
+            </div>
+            <div class="rounded-[1.5rem] border border-emerald-300/15 bg-[#07111f]/80 p-6 shadow-neon">
+                <h2 class="text-xl font-bold text-white">Como estudo hoje</h2>
+                <p class="mt-4 text-sm leading-7 text-slate-300">
+                    Estudo dados, desenvolvimento web e automação com projetos práticos. Uso IA como apoio para pesquisar, organizar raciocínio, revisar código e chegar a resultados melhores, sempre buscando entender o processo.
+                </p>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-12 max-w-5xl rounded-[1.5rem] border border-white/10 bg-white/[.04] p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-white">Áreas que quero desenvolver</h2>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div>
+                    <p class="font-semibold text-cyan-200">Dados</p>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Excel, SQL, Power BI, análise de informações e organização de indicadores.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-emerald-200">Suporte e infraestrutura</p>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Atendimento, sistemas, Windows, Linux básico, redes, impressoras, VPS, Nginx e Gunicorn.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-violet-200">Desenvolvimento</p>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Python, Django, HTML, CSS, JavaScript e Git como ferramentas de estudo e construção prática.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-sky-200">Automação e processos</p>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Soluções que economizam tempo, melhoram rotinas e reduzem retrabalho.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-12 max-w-5xl">
+            <div class="grid gap-5 md:grid-cols-3">
+                <div class="rounded-[1.25rem] border border-cyan-300/15 bg-cyan-300/[.06] p-5">
+                    <p class="font-mono text-xs uppercase tracking-[0.25em] text-cyan-200">Em aprendizado</p>
+                    <h2 class="mt-3 text-lg font-bold text-white">Power BI, SQL e Django</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-400">Estudos guiados por projetos, exercicios e revisao constante com apoio de IA.</p>
+                </div>
+                <div class="rounded-[1.25rem] border border-emerald-300/15 bg-emerald-300/[.06] p-5">
+                    <p class="font-mono text-xs uppercase tracking-[0.25em] text-emerald-200">Praticando em projeto</p>
+                    <h2 class="mt-3 text-lg font-bold text-white">Python, web e automacao</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-400">Aplicacao em portfolio, lab de estudos, admin dinamico e pequenas solucoes digitais.</p>
+                </div>
+                <div class="rounded-[1.25rem] border border-violet-300/15 bg-violet-300/[.06] p-5">
+                    <p class="font-mono text-xs uppercase tracking-[0.25em] text-violet-200">Experiencia real</p>
+                    <h2 class="mt-3 text-lg font-bold text-white">Atendimento, sistemas e Excel</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-400">Base construida em rotinas profissionais com organizacao, suporte e resolucao de problemas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

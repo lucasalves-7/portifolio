@@ -1,0 +1,132 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ empresa.nome }} | Aprendizados Profissionais{% endblock %}
+{% block meta_description %}{{ empresa.descricao_curta }}{% endblock %}
+{% block og_title %}{{ empresa.nome }} | Aprendizados Profissionais{% endblock %}
+{% block og_description %}{{ empresa.descricao_curta }}{% endblock %}
+
+{% block content %}
+    {% include 'core/components/navbar.html' %}
+
+    <main class="px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32 lg:px-8">
+        <section class="mx-auto max-w-7xl">
+            <a href="/#aprendizados-profissionais" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-200 transition hover:text-white">
+                <span>&lt;-</span>
+                Voltar para Aprendizados Profissionais
+            </a>
+
+            <div class="mt-8 grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
+                <div class="flex h-72 items-center justify-center overflow-hidden rounded-[1.75rem] border border-emerald-300/15 bg-emerald-300/[.06] shadow-neon">
+                    {% if empresa.logo %}
+                    <img src="{{ empresa.logo.url }}" alt="{{ empresa.nome }}" class="h-full w-full object-cover">
+                    {% else %}
+                    <span class="font-mono text-6xl font-black uppercase tracking-[0.2em] text-emerald-200/70">{{ empresa.nome|slice:":2" }}</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">Aprendizado profissional</p>
+                    <h1 class="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">{{ empresa.nome }}</h1>
+                    <p class="mt-3 text-lg font-semibold text-emerald-200">{{ empresa.cargo }}</p>
+                    <p class="mt-2 font-mono text-sm text-slate-500">{{ empresa.periodo }}</p>
+                    <p class="mt-5 max-w-3xl text-base leading-8 text-slate-300">{{ empresa.descricao_curta }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-14 max-w-7xl">
+            <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <h2 class="text-2xl font-bold text-white">Timeline de aprendizados</h2>
+                <span class="w-fit rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200 sm:tracking-[0.2em]">
+                    {{ experiencias|length }} registros
+                </span>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-emerald-300/60 via-cyan-300/30 to-transparent md:block"></div>
+
+                <div class="space-y-8">
+                    {% for experiencia in experiencias %}
+                    <article class="relative rounded-[1.5rem] border border-white/10 bg-[#07111f]/80 p-6 shadow-terminal backdrop-blur-sm md:ml-12 sm:p-8">
+                        <span class="absolute -left-[3.25rem] top-8 hidden h-8 w-8 rounded-full border border-emerald-300/35 bg-[#07111f] shadow-neon md:block"></span>
+
+                        <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+                            <div>
+                                <p class="font-mono text-xs uppercase tracking-[0.25em] text-slate-500">{{ experiencia.criado_em|date:"d/m/Y" }}</p>
+                                <h3 class="mt-3 text-2xl font-bold text-white">{{ experiencia.titulo }}</h3>
+                                <p class="mt-4 text-sm leading-7 text-slate-400">{{ experiencia.resumo }}</p>
+                            </div>
+
+                            {% if experiencia.imagem_principal %}
+                            <div class="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+                                <img src="{{ experiencia.imagem_principal.url }}" alt="{{ experiencia.titulo }}" class="h-56 w-full object-cover">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-8 grid gap-5 md:grid-cols-2">
+                            <div class="rounded-[1.25rem] border border-cyan-300/15 bg-cyan-300/[.06] p-5">
+                                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-cyan-100">Atividades realizadas</h4>
+                                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-300">{{ experiencia.atividades_realizadas }}</p>
+                            </div>
+
+                            <div class="rounded-[1.25rem] border border-emerald-300/15 bg-emerald-300/[.06] p-5">
+                                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">Aprendizados obtidos</h4>
+                                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-300">{{ experiencia.aprendizados_obtidos }}</p>
+                            </div>
+
+                            {% if experiencia.habilidades_desenvolvidas %}
+                            <div class="rounded-[1.25rem] border border-violet-300/15 bg-violet-300/[.06] p-5">
+                                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-violet-100">Habilidades desenvolvidas</h4>
+                                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-300">{{ experiencia.habilidades_desenvolvidas }}</p>
+                            </div>
+                            {% endif %}
+
+                            {% if experiencia.desafios_enfrentados or experiencia.resultados_alcancados %}
+                            <div class="rounded-[1.25rem] border border-sky-300/15 bg-sky-300/[.06] p-5">
+                                {% if experiencia.desafios_enfrentados %}
+                                <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-sky-100">Desafios enfrentados</h4>
+                                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-300">{{ experiencia.desafios_enfrentados }}</p>
+                                {% endif %}
+                                {% if experiencia.resultados_alcancados %}
+                                <h4 class="mt-5 text-sm font-bold uppercase tracking-[0.2em] text-sky-100">Resultados alcançados</h4>
+                                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-300">{{ experiencia.resultados_alcancados }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if experiencia.ferramentas_lista %}
+                        <div class="mt-6">
+                            <p class="text-sm font-bold uppercase tracking-[0.2em] text-slate-400">Ferramentas e competências</p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                {% for item in experiencia.ferramentas_lista %}
+                                <span class="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs text-emerald-100">{{ item }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if experiencia.imagens.all %}
+                        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                            {% for imagem in experiencia.imagens.all %}
+                            <figure class="overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[.04]">
+                                <img src="{{ imagem.imagem.url }}" alt="{{ imagem.legenda|default:experiencia.titulo }}" class="h-56 w-full object-cover">
+                                {% if imagem.legenda %}
+                                <figcaption class="p-4 text-sm text-slate-400">{{ imagem.legenda }}</figcaption>
+                                {% endif %}
+                            </figure>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </article>
+                    {% empty %}
+                    <div class="rounded-[1.5rem] border border-dashed border-white/15 bg-white/[.04] px-6 py-12 text-center text-slate-400">
+                        Nenhuma experiência publicada para esta empresa ainda.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

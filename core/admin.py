@@ -4,6 +4,9 @@ from unfold.admin import ModelAdmin, TabularInline
 
 from .models import (
     Certificado,
+    EmpresaProfissional,
+    ExperienciaProfissional,
+    ImagemExperienciaProfissional,
     ImagemPublicacaoEstudo,
     Projeto,
     PublicacaoEstudo,
@@ -28,7 +31,14 @@ class ProjetoAdmin(ModelAdmin):
         "criado_em",
     )
     list_filter = ("tipo", "tags", "criado_em")
-    search_fields = ("nome", "descricao", "tags__nome")
+    search_fields = (
+        "nome",
+        "descricao",
+        "problema_resolvido",
+        "aprendizado_obtido",
+        "proximos_passos",
+        "tags__nome",
+    )
     ordering = ("-criado_em", "nome")
     date_hierarchy = "criado_em"
     list_per_page = 12
@@ -39,7 +49,7 @@ class ProjetoAdmin(ModelAdmin):
         (
             "Informacoes principais",
             {
-                "fields": ("nome", "descricao"),
+                "fields": ("nome", "descricao", "problema_resolvido", "aprendizado_obtido", "proximos_passos"),
                 "description": "Dados centrais do projeto exibidos no portfolio.",
             },
         ),
@@ -180,6 +190,157 @@ class ImagemPublicacaoEstudoInline(TabularInline):
                 obj.legenda or obj.publicacao.titulo,
             )
         return "-"
+
+
+class ImagemExperienciaProfissionalInline(TabularInline):
+    model = ImagemExperienciaProfissional
+    extra = 1
+    fields = ("imagem", "legenda", "ordem", "preview_imagem")
+    readonly_fields = ("preview_imagem",)
+
+    @admin.display(description="Preview")
+    def preview_imagem(self, obj):
+        if obj.imagem:
+            return format_html(
+                '<img src="{}" alt="{}" style="max-height: 90px; border-radius: 10px;" />',
+                obj.imagem.url,
+                obj.legenda or obj.experiencia.titulo,
+            )
+        return "-"
+
+
+@admin.register(EmpresaProfissional)
+class EmpresaProfissionalAdmin(ModelAdmin):
+    list_display = ("nome", "cargo", "periodo", "ordem", "total_experiencias", "criado_em")
+    list_filter = ("criado_em",)
+    search_fields = ("nome", "cargo", "periodo", "descricao_curta")
+    prepopulated_fields = {"slug": ("nome",)}
+    ordering = ("ordem", "-criado_em", "nome")
+    list_per_page = 20
+    readonly_fields = ("criado_em", "preview_logo")
+    save_on_top = True
+    fieldsets = (
+        (
+            "Empresa e contexto",
+            {
+                "fields": ("nome", "slug", "logo", "preview_logo", "cargo", "periodo"),
+                "description": "Registre a empresa como parte da sua trajetoria de aprendizado profissional.",
+            },
+        ),
+        (
+            "Apresentacao publica",
+            {
+                "fields": ("descricao_curta", "ordem"),
+                "description": "Use um texto curto focado em contexto, aprendizado e evolucao.",
+            },
+        ),
+        (
+            "Registro",
+            {
+                "fields": ("criado_em",),
+            },
+        ),
+    )
+
+    @admin.display(description="Experiencias")
+    def total_experiencias(self, obj):
+        return obj.experiencias.count()
+
+    @admin.display(description="Logo")
+    def preview_logo(self, obj):
+        if obj.logo:
+            return format_html(
+                '<img src="{}" alt="{}" style="max-height: 90px; border-radius: 12px;" />',
+                obj.logo.url,
+                obj.nome,
+            )
+        return "Nenhuma logo enviada."
+
+
+@admin.register(ExperienciaProfissional)
+class ExperienciaProfissionalAdmin(ModelAdmin):
+    list_display = (
+        "titulo",
+        "empresa",
+        "status",
+        "imagem_disponivel",
+        "criado_em",
+        "atualizado_em",
+    )
+    list_filter = ("status", "empresa", "criado_em", "atualizado_em")
+    search_fields = (
+        "titulo",
+        "resumo",
+        "atividades_realizadas",
+        "aprendizados_obtidos",
+        "habilidades_desenvolvidas",
+        "ferramentas_competencias",
+        "desafios_enfrentados",
+        "resultados_alcancados",
+    )
+    prepopulated_fields = {"slug": ("titulo",)}
+    autocomplete_fields = ("empresa",)
+    ordering = ("-criado_em", "titulo")
+    date_hierarchy = "criado_em"
+    list_per_page = 12
+    readonly_fields = ("criado_em", "atualizado_em", "preview_imagem")
+    save_on_top = True
+    inlines = (ImagemExperienciaProfissionalInline,)
+    fieldsets = (
+        (
+            "Identificacao",
+            {
+                "fields": ("empresa", "titulo", "slug", "resumo", "status"),
+            },
+        ),
+        (
+            "Historia da experiencia",
+            {
+                "fields": (
+                    "atividades_realizadas",
+                    "aprendizados_obtidos",
+                    "habilidades_desenvolvidas",
+                ),
+                "description": "Priorize aprendizados, evolucao e competencias desenvolvidas, nao uma lista fria de curriculo.",
+            },
+        ),
+        (
+            "Ferramentas, desafios e resultados",
+            {
+                "fields": (
+                    "ferramentas_competencias",
+                    "desafios_enfrentados",
+                    "resultados_alcancados",
+                ),
+            },
+        ),
+        (
+            "Midia",
+            {
+                "fields": ("imagem_principal", "preview_imagem"),
+            },
+        ),
+        (
+            "Registro",
+            {
+                "fields": ("criado_em", "atualizado_em"),
+            },
+        ),
+    )
+
+    @admin.display(description="Imagem", boolean=True)
+    def imagem_disponivel(self, obj):
+        return bool(obj.imagem_principal)
+
+    @admin.display(description="Preview")
+    def preview_imagem(self, obj):
+        if obj.imagem_principal:
+            return format_html(
+                '<img src="{}" alt="{}" style="max-height: 140px; border-radius: 12px;" />',
+                obj.imagem_principal.url,
+                obj.titulo,
+            )
+        return "Nenhuma imagem enviada."
 
 
 @admin.register(TemaEstudo)

@@ -1,5 +1,10 @@
 {% extends 'core/base.html' %}
 
+{% block title %}{{ publicacao.titulo }} | {{ tema.titulo }}{% endblock %}
+{% block meta_description %}{{ publicacao.resumo }}{% endblock %}
+{% block og_title %}{{ publicacao.titulo }} | {{ tema.titulo }}{% endblock %}
+{% block og_description %}{{ publicacao.resumo }}{% endblock %}
+
 {% block content %}
     {% include 'core/components/navbar.html' %}
 

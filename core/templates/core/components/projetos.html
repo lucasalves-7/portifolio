@@ -22,19 +22,28 @@
                 {% endif %}
 
                 <div class="relative mt-5">
-                    <div class="mb-4 flex items-center justify-between gap-3">
+                    <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <h3 class="pr-10 text-xl font-bold text-white">
                             {{ projeto.nome }}
                         </h3>
-                        <span class="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-emerald-200">
+                        <span class="w-fit rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-200 sm:tracking-[0.25em]">
                             Aprendizado
                         </span>
                     </div>
 
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">O que pratiquei</p>
-                    <p class="mb-5 text-sm leading-7 text-slate-400">
-                        {{ projeto.descricao }}
+                    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        {% if projeto.problema_resolvido %}Problema trabalhado{% else %}O que pratiquei{% endif %}
                     </p>
+                    <p class="mb-5 text-sm leading-7 text-slate-400">
+                        {{ projeto.problema_resolvido|default:projeto.descricao }}
+                    </p>
+
+                    {% if projeto.aprendizado_obtido %}
+                    <div class="mb-5 rounded-2xl border border-emerald-300/15 bg-emerald-300/[.06] p-4">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200">Aprendizado</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">{{ projeto.aprendizado_obtido }}</p>
+                    </div>
+                    {% endif %}
 
                     <div class="mb-6 flex flex-wrap gap-2">
                         {% for tag in projeto.tags.all %}
@@ -50,6 +59,12 @@
                         Ver projeto
                         <span class="transition duration-300 group-hover:translate-x-1">-&gt;</span>
                     </a>
+                    {% endif %}
+
+                    {% if projeto.proximos_passos %}
+                    <p class="mt-5 border-t border-white/10 pt-4 text-xs leading-6 text-slate-500">
+                        Próximos passos: {{ projeto.proximos_passos }}
+                    </p>
                     {% endif %}
                 </div>
             </article>
