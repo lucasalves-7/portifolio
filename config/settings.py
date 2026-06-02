@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,18 +21,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@qzvjki5b#zdvo#)1g8nf)fu8+lp_=o**s+30!v=2n(cqfpm%5'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-@qzvjki5b#zdvo#)1g8nf)fu8+lp_=o**s+30!v=2n(cqfpm%5',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in {'1', 'true', 'yes', 'on'}
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
+    if host.strip()
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,100 +126,42 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-JAZZMIN_SETTINGS = {
-    "site_title": "Lucas Admin",
-    "site_header": "Lucas Admin",
-    "site_brand": "Lucas Admin",
-    "site_logo": "core/img/lucas-avatar.png",
-    "site_icon": "core/img/favicon.png",
-    "site_logo_classes": "img-circle",
-    "custom_css": "core/css/admin-responsive.css",
-    "welcome_sign": "Bem-vindo ao painel administrativo do portfolio",
-    "copyright": "Lucas Alves",
-    "search_model": ["core.Projeto", "core.Certificado", "core.Tag"],
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "related_modal_active": True,
-    "show_ui_builder": True,
-    "show_theme_chooser": True,
-    "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {
-        "core.tag": "single",
+
+UNFOLD = {
+    "SITE_TITLE": "Lucas Alves Tech",
+    "SITE_HEADER": "Lucas Alves Tech",
+    "SITE_SUBHEADER": "Painel do portfolio",
+    "SITE_URL": "/",
+    "SITE_LOGO": "/static/core/img/logo.png",
+    "SITE_ICON": "/static/core/img/logo.png",
+    "SITE_SYMBOL": "terminal",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "COLORS": {
+        "primary": {
+            "50": "oklch(97.7% .014 191.4)",
+            "100": "oklch(94.5% .045 191.4)",
+            "200": "oklch(88.8% .075 191.4)",
+            "300": "oklch(80.5% .117 191.4)",
+            "400": "oklch(71.2% .145 191.4)",
+            "500": "oklch(63.7% .14 191.4)",
+            "600": "oklch(55.4% .125 191.4)",
+            "700": "oklch(47.8% .105 191.4)",
+            "800": "oklch(40.2% .081 191.4)",
+            "900": "oklch(34.3% .064 191.4)",
+            "950": "oklch(22.8% .045 191.4)",
+        },
     },
-    "order_with_respect_to": [
-        "core",
-        "core.projeto",
-        "core.tag",
-        "core.certificado",
-        "auth",
-    ],
-    "topmenu_links": [
-        {
-            "name": "Dashboard",
-            "url": "admin:index",
-            "icon": "fas fa-tachometer-alt",
-        },
-        {
-            "name": "Portfolio",
-            "url": "/",
-            "new_window": True,
-            "icon": "fas fa-external-link-alt",
-        },
-        {
-            "model": "core.Projeto",
-        },
-        {
-            "model": "core.Certificado",
-        },
-    ],
-    "usermenu_links": [
-        {
-            "name": "Ver portfolio",
-            "url": "/",
-            "new_window": True,
-            "icon": "fas fa-globe",
-        },
-    ],
-    "icons": {
-        "auth": "fas fa-user-shield",
-        "auth.user": "fas fa-user",
-        "auth.group": "fas fa-users",
-        "core": "fas fa-layer-group",
-        "core.projeto": "fas fa-project-diagram",
-        "core.tag": "fas fa-tags",
-        "core.certificado": "fas fa-certificate",
+    "COMMAND": {
+        "search_models": ["core.projeto", "core.certificado", "core.tag"],
+        "show_history": True,
     },
-    "default_icon_parents": "fas fa-folder-tree",
-    "default_icon_children": "fas fa-circle",
-}
-
-
-JAZZMIN_UI_TWEAKS = {
-    "theme": "cyborg",
-    "default_theme_mode": "dark",
-    "accent": "accent-info",
-    "navbar": "navbar-dark bg-primary",
-    "no_navbar_border": True,
-    "navbar_fixed": True,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-primary",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": True,
-    "sidebar_nav_legacy_style": False,
-    "sidebar_nav_flat_style": True,
-    "brand_colour": "navbar-primary",
-    "brand_small_text": False,
-    "button_classes": {
-        "primary": "btn-info",
-        "secondary": "btn-outline-light",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success",
+    "SIDEBAR": {
+        "show_search": True,
+        "command_search": True,
+        "show_all_applications": True,
     },
 }

@@ -1,11 +1,9 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucas Alves</title>
-    <link rel="icon" type="image/png" href="{% static 'core/img/favicon.png' %}">
+    <title>Lucas Alves | Estágio em TI e Dados</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,11 +11,14 @@
             theme: {
                 extend: {
                     colors: {
-                        abyss: "#050816",
+                        abyss: "#030712",
+                        panel: "#07111f",
                         neon: {
                             blue: "#38bdf8",
                             purple: "#8b5cf6",
-                            cyan: "#22d3ee"
+                            cyan: "#22d3ee",
+                            green: "#34d399",
+                            pink: "#fb7185"
                         }
                     },
                     fontFamily: {
@@ -25,10 +26,31 @@
                     },
                     boxShadow: {
                         neon: "0 0 0 1px rgba(56,189,248,.18), 0 0 24px rgba(56,189,248,.14), 0 0 64px rgba(139,92,246,.12)",
-                        "neon-strong": "0 0 0 1px rgba(56,189,248,.25), 0 0 32px rgba(56,189,248,.22), 0 0 80px rgba(139,92,246,.2)"
+                        "neon-strong": "0 0 0 1px rgba(56,189,248,.25), 0 0 32px rgba(56,189,248,.22), 0 0 80px rgba(139,92,246,.2)",
+                        terminal: "0 24px 90px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08)"
                     },
                     backgroundImage: {
-                        grid: "linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px)"
+                        grid: "linear-gradient(rgba(148,163,184,.075) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.075) 1px, transparent 1px)",
+                        circuit: "linear-gradient(90deg, rgba(34,211,238,.12), transparent 16%, transparent 84%, rgba(139,92,246,.1)), repeating-linear-gradient(0deg, transparent 0 31px, rgba(34,211,238,.06) 32px), repeating-linear-gradient(90deg, transparent 0 31px, rgba(148,163,184,.045) 32px)"
+                    },
+                    animation: {
+                        scan: "scan 8s linear infinite",
+                        pulseGlow: "pulseGlow 3.5s ease-in-out infinite",
+                        floatPanel: "floatPanel 7s ease-in-out infinite"
+                    },
+                    keyframes: {
+                        scan: {
+                            "0%": { transform: "translateY(-100%)" },
+                            "100%": { transform: "translateY(100%)" }
+                        },
+                        pulseGlow: {
+                            "0%, 100%": { opacity: ".55" },
+                            "50%": { opacity: "1" }
+                        },
+                        floatPanel: {
+                            "0%, 100%": { transform: "translateY(0)" },
+                            "50%": { transform: "translateY(-10px)" }
+                        }
                     }
                 }
             }
@@ -36,35 +58,28 @@
     </script>
 
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'core/css/site.css' %}">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body class="min-h-screen overflow-x-hidden bg-abyss text-slate-100 antialiased">
-    <div class="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(139,92,246,0.16),_transparent_30%),linear-gradient(180deg,_#050816_0%,_#020617_100%)]"></div>
-    <div class="fixed inset-0 -z-10 bg-grid bg-[size:36px_36px] opacity-25 [mask-image:radial-gradient(circle_at_center,black,transparent_88%)]"></div>
+    <div class="fixed inset-0 -z-30 bg-[#030712]"></div>
+    <div class="fixed inset-0 -z-20 bg-circuit bg-[size:100%_100%,32px_32px,32px_32px] opacity-70"></div>
+    <div class="fixed inset-0 -z-10 bg-[linear-gradient(180deg,rgba(3,7,18,.2),rgba(3,7,18,.86)_58%,#030712),linear-gradient(90deg,rgba(34,211,238,.08),transparent_28%,rgba(52,211,153,.06)_52%,transparent_72%,rgba(251,113,133,.06))]"></div>
+    <div class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-1/2 animate-scan bg-[linear-gradient(180deg,transparent,rgba(34,211,238,.08),transparent)]"></div>
+    <div class="pointer-events-none fixed inset-0 z-[60] bg-[repeating-linear-gradient(180deg,rgba(255,255,255,.025)_0,rgba(255,255,255,.025)_1px,transparent_1px,transparent_4px)] opacity-[.13]"></div>
 
     {% block content %}{% endblock %}
 
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-        if (window.AOS) {
-            AOS.init({
-                duration: 700,
-                once: true,
-                offset: 60,
-                easing: "ease-out-cubic",
-                disable: () => window.innerWidth < 360
-            });
-        } else {
-            document.querySelectorAll("[data-aos]").forEach((element) => {
-                element.removeAttribute("data-aos");
-            });
-        }
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 80,
+            easing: "ease-out-cubic"
+        });
 
-        if (window.feather) {
-            feather.replace();
-        }
+        feather.replace();
 
         const btn = document.getElementById("menu-btn");
         const menu = document.getElementById("mobile-menu");
@@ -72,22 +87,10 @@
         const iconClose = document.getElementById("menu-close-icon");
         const mobileLinks = document.querySelectorAll("[data-mobile-link]");
 
-        const closeMobileMenu = () => {
-            if (!menu || !btn) return;
-            menu.classList.add("hidden");
-            document.body.classList.remove("mobile-menu-open");
-            btn.setAttribute("aria-expanded", "false");
-            if (iconOpen && iconClose) {
-                iconOpen.classList.remove("hidden");
-                iconClose.classList.add("hidden");
-            }
-        };
-
         if (btn && menu) {
             btn.addEventListener("click", () => {
                 const isHidden = menu.classList.contains("hidden");
                 menu.classList.toggle("hidden");
-                document.body.classList.toggle("mobile-menu-open", isHidden);
                 btn.setAttribute("aria-expanded", String(isHidden));
 
                 if (iconOpen && iconClose) {
@@ -97,11 +100,14 @@
             });
 
             mobileLinks.forEach((link) => {
-                link.addEventListener("click", closeMobileMenu);
-            });
-
-            window.addEventListener("resize", () => {
-                if (window.innerWidth >= 768) closeMobileMenu();
+                link.addEventListener("click", () => {
+                    menu.classList.add("hidden");
+                    btn.setAttribute("aria-expanded", "false");
+                    if (iconOpen && iconClose) {
+                        iconOpen.classList.remove("hidden");
+                        iconClose.classList.add("hidden");
+                    }
+                });
             });
         }
     </script>
