@@ -24,7 +24,12 @@
 
             {% if publicacao.imagem_principal %}
             <div class="mt-10 overflow-hidden rounded-[1.75rem] border border-cyan-300/15 bg-black/30 shadow-neon">
-                <img src="{{ publicacao.imagem_principal.url }}" alt="{{ publicacao.titulo }}" class="max-h-[520px] w-full object-cover">
+                <a href="{{ publicacao.imagem_principal.url }}" target="_blank" rel="noopener noreferrer" class="group relative block" aria-label="Abrir imagem completa de {{ publicacao.titulo }}">
+                    <img src="{{ publicacao.imagem_principal.url }}" alt="{{ publicacao.titulo }}" class="max-h-[520px] w-full object-cover transition duration-300 group-hover:scale-[1.02] group-hover:opacity-90">
+                    <span class="absolute bottom-4 right-4 rounded-full border border-cyan-300/25 bg-black/70 px-3 py-1 text-xs font-semibold text-cyan-100 opacity-0 shadow-neon backdrop-blur transition duration-300 group-hover:opacity-100">
+                        Abrir imagem completa
+                    </span>
+                </a>
             </div>
             {% endif %}
 
@@ -93,7 +98,12 @@
                 <div class="mt-5 grid gap-4 sm:grid-cols-2">
                     {% for imagem in publicacao.imagens_extras.all %}
                     <figure class="overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[.04]">
-                        <img src="{{ imagem.imagem.url }}" alt="{{ imagem.legenda|default:publicacao.titulo }}" class="h-64 w-full object-cover">
+                        <a href="{{ imagem.imagem.url }}" target="_blank" rel="noopener noreferrer" class="group relative block" aria-label="Abrir imagem completa">
+                            <img src="{{ imagem.imagem.url }}" alt="{{ imagem.legenda|default:publicacao.titulo }}" class="h-64 w-full object-cover transition duration-300 group-hover:scale-[1.03] group-hover:opacity-90">
+                            <span class="absolute bottom-3 right-3 rounded-full border border-cyan-300/25 bg-black/70 px-3 py-1 text-xs font-semibold text-cyan-100 opacity-0 backdrop-blur transition duration-300 group-hover:opacity-100">
+                                Abrir completa
+                            </span>
+                        </a>
                         {% if imagem.legenda %}
                         <figcaption class="p-4 text-sm text-slate-400">{{ imagem.legenda }}</figcaption>
                         {% endif %}
