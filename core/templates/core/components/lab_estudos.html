@@ -34,6 +34,23 @@
                     </span>
                 </div>
 
+                {% if tema.publicacoes_publicadas %}
+                <div class="mt-5 rounded-2xl border border-white/10 bg-white/[.04] p-4">
+                    <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Publicações recentes</p>
+                    <div class="mt-3 space-y-3">
+                        {% for publicacao in tema.publicacoes_publicadas|slice:":3" %}
+                        <a href="{{ publicacao.get_absolute_url }}" class="block text-sm font-medium leading-6 text-slate-300 transition hover:text-cyan-200">
+                            {{ publicacao.titulo }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <p class="mt-5 rounded-2xl border border-dashed border-white/10 bg-white/[.03] p-4 text-sm leading-6 text-slate-500">
+                    Nenhuma publicação publicada neste tema ainda.
+                </p>
+                {% endif %}
+
                 <a href="{{ tema.get_absolute_url }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition hover:text-white">
                     Ver aprendizados
                     <span class="transition duration-300 group-hover:translate-x-1">-&gt;</span>

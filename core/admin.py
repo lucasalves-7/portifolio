@@ -345,7 +345,7 @@ class ExperienciaProfissionalAdmin(ModelAdmin):
 
 @admin.register(TemaEstudo)
 class TemaEstudoAdmin(ModelAdmin):
-    list_display = ("titulo", "ativo", "ordem", "total_publicacoes", "criado_em")
+    list_display = ("titulo", "ativo", "ordem", "publicacoes_publicadas", "rascunhos", "criado_em")
     list_filter = ("ativo", "criado_em")
     search_fields = ("titulo", "descricao_curta")
     prepopulated_fields = {"slug": ("titulo",)}
@@ -375,9 +375,13 @@ class TemaEstudoAdmin(ModelAdmin):
         ),
     )
 
-    @admin.display(description="Publicacoes")
-    def total_publicacoes(self, obj):
-        return obj.publicacoes.count()
+    @admin.display(description="Publicadas")
+    def publicacoes_publicadas(self, obj):
+        return obj.publicacoes.filter(status="publicado").count()
+
+    @admin.display(description="Rascunhos")
+    def rascunhos(self, obj):
+        return obj.publicacoes.filter(status="rascunho").count()
 
     @admin.display(description="Preview")
     def preview_imagem(self, obj):
@@ -422,6 +426,7 @@ class PublicacaoEstudoAdmin(ModelAdmin):
             "Identificacao",
             {
                 "fields": ("tema", "titulo", "slug", "resumo", "status"),
+                "description": "Para aparecer no site publico, o status precisa ser Publicado e o tema relacionado precisa estar ativo.",
             },
         ),
         (

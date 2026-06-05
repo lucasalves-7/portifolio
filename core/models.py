@@ -28,6 +28,14 @@ class Projeto(models.Model):
 class Tag(models.Model):
     nome = models.CharField(max_length=50)
 
+    class Meta:
+        ordering = ('nome',)
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+
+    def __str__(self):
+        return self.nome
+
 
 class Certificado(models.Model):
     nome = models.CharField(max_length=150)

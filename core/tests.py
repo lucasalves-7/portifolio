@@ -58,6 +58,20 @@ class PortfolioHomeTests(TestCase):
             descricao_curta='Estudos de planilhas e dados.',
             ordem=1,
         )
+        publicacao_publicada = PublicacaoEstudo.objects.create(
+            tema=tema_ativo,
+            titulo='Formula PROCV',
+            resumo='Estudo publicado dentro de Excel.',
+            conteudo='Conteudo publicado.',
+            status='publicado',
+        )
+        PublicacaoEstudo.objects.create(
+            tema=tema_ativo,
+            titulo='Rascunho de Excel',
+            resumo='Ainda nao deve aparecer.',
+            conteudo='Conteudo em rascunho.',
+            status='rascunho',
+        )
         TemaEstudo.objects.create(
             titulo='Tema Inativo',
             descricao_curta='Nao deve aparecer.',
@@ -86,6 +100,8 @@ class PortfolioHomeTests(TestCase):
         self.assertEqual(list(response.context['temas_estudo']), [tema_ativo])
         self.assertEqual(list(response.context['empresas_profissionais']), [empresa])
         self.assertContains(response, 'Excel')
+        self.assertContains(response, publicacao_publicada.titulo)
+        self.assertNotContains(response, 'Rascunho de Excel')
         self.assertContains(response, 'Empresa Teste')
         self.assertNotContains(response, 'Tema Inativo')
 
@@ -105,6 +121,10 @@ class LabEstudosTests(TestCase):
             titulo='SQL',
             descricao_curta='Consultas e organizacao de dados.',
         )
+        outro_tema = TemaEstudo.objects.create(
+            titulo='Excel',
+            descricao_curta='Planilhas e dados.',
+        )
         publicado = PublicacaoEstudo.objects.create(
             tema=tema,
             titulo='Primeiras consultas',
@@ -120,6 +140,13 @@ class LabEstudosTests(TestCase):
             conteudo='Conteudo em rascunho.',
             status='rascunho',
         )
+        PublicacaoEstudo.objects.create(
+            tema=outro_tema,
+            titulo='Publicacao de outro tema',
+            resumo='Nao deve aparecer em SQL.',
+            conteudo='Conteudo de outro tema.',
+            status='publicado',
+        )
 
         response = self.client.get(tema.get_absolute_url())
 
@@ -127,6 +154,7 @@ class LabEstudosTests(TestCase):
         self.assertContains(response, tema.titulo)
         self.assertContains(response, publicado.titulo)
         self.assertNotContains(response, 'Rascunho interno')
+        self.assertNotContains(response, 'Publicacao de outro tema')
 
     def test_publicacao_detail_requires_published_status(self):
         tema = TemaEstudo.objects.create(
@@ -231,6 +259,7 @@ class ModelStringTests(TestCase):
         )
 
         self.assertEqual(str(projeto), 'Portfolio')
+        self.assertEqual(str(Tag.objects.create(nome='Django')), 'Django')
         self.assertEqual(str(certificado), 'Python')
         self.assertEqual(str(tema), 'Excel')
         self.assertEqual(str(publicacao), 'Tabela dinamica')

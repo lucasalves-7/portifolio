@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, render
 
 from .models import (
@@ -12,7 +13,12 @@ def home(request):
     projetos = Projeto.objects.filter(tipo='real').prefetch_related('tags').order_by('-criado_em')
     futuros = Projeto.objects.filter(tipo='futuro').order_by('-criado_em')
     certificados = Certificado.objects.order_by('-data', 'nome')
-    temas_estudo = TemaEstudo.objects.filter(ativo=True).order_by('ordem', 'titulo')
+    publicacoes_publicadas = PublicacaoEstudo.objects.filter(status='publicado').order_by('-criado_em')
+    temas_estudo = (
+        TemaEstudo.objects.filter(ativo=True)
+        .prefetch_related(Prefetch('publicacoes', queryset=publicacoes_publicadas, to_attr='publicacoes_publicadas'))
+        .order_by('ordem', 'titulo')
+    )
     empresas_profissionais = EmpresaProfissional.objects.order_by('ordem', '-criado_em', 'nome')
 
     return render(request, 'core/home.html', {
@@ -30,7 +36,10 @@ def sobre(request):
 
 def tema_estudo_detail(request, slug):
     tema = get_object_or_404(TemaEstudo, slug=slug, ativo=True)
-    publicacoes = tema.publicacoes.filter(status='publicado').order_by('-criado_em')
+    publicacoes = PublicacaoEstudo.objects.filter(
+        tema=tema,
+        status='publicado',
+    ).order_by('-criado_em', 'titulo')
 
     return render(request, 'core/tema_estudo_detail.html', {
         'tema': tema,
